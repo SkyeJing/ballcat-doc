@@ -39,6 +39,40 @@ public void upload(@RequestExcel List<DemoData> dataList, BindingResult bindingR
 
 ```
 
+- 接口类定义List 接受表格对应的数据 使用 @RequestExcel 标记指定自定义监听器
+
+```java
+@PostMapping("/upload")
+public void upload(@RequestExcel(readListener=CustomDataListener.class) List<DemoData> dataList) {
+  
+}
+
+public class CabExcelDataListener extends ListAnalysisEventListener<DemoData> {
+
+	private List<String> errorList = new ArrayList<>();
+
+	@Override
+	public List<DemoData> getList() {
+		return null;
+	}
+
+	@Override
+	public List<ErrorMessage> getErrors() {
+		return null;
+	}
+
+	@Override
+	public void invoke(DemoData demoData, AnalysisContext analysisContext) {
+		// 处理每行读取到的数据
+	}
+
+	@Override
+	public void doAfterAllAnalysed(AnalysisContext analysisContext) {
+		// 所有数据解析完成后执行的逻辑
+        	// 可以进行一些数据的整合、校验或其他操作
+	}
+}
+
 - 实体声明
 
 ```java
